@@ -18,7 +18,7 @@
    along with Targoman. If not, see <http://www.gnu.org/licenses/>.
 
                                                                              -->
-#Targoman Common libraries and applications
+#  Targoman text processor library and application
 ===================
 
 This repository has been forked from old TargomanSMT bundle in oder to be developed and maintained separately.
