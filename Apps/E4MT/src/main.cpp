@@ -1,7 +1,7 @@
 /******************************************************************************
- * Targoman: A robust Statistical Machine Translation framework               *
+ * Targoman: A robust Machine Translation framework               *
  *                                                                            *
- * Copyright 2014-2015 by ITRC <http://itrc.ac.ir>                            *
+ * Copyright 2014-2018 by ITRC <http://itrc.ac.ir>                            *
  *                                                                            *
  * This file is part of Targoman.                                             *
  *                                                                            *
@@ -19,32 +19,47 @@
  *                                                                            *
  ******************************************************************************/
 /**
- * @author S. Mohammad M. Ziabary <ziabary@targoman.com>
+ @author S. Mohammad M. Ziabary <ziabary@targoman.com>
  */
 
-#ifndef TARGOMAN_APPS_XMLREADER_H
-#define TARGOMAN_APPS_XMLREADER_H
+#include <QCoreApplication>
+#include <QTimer>
+#include "libTargomanCommon/Macros.h"
+#include "libTargomanCommon/Configuration/ConfigManager.h"
 
-#include <QStringList>
-#include <libxml/xmlreader.h>
-#include "Configs.h"
+#include "appE4SMT.h"
 
-namespace Targoman {
-namespace Apps {
+const char* LicenseStr =
+"%1 Ver: %2 Build %3\n"
+"Published under the terms of GNU Lesser General Public License version 3\n\n"
+"%1 [Arguments]\n"
+"Arguments: \n";
 
-TARGOMAN_ADD_EXCEPTION_HANDLER(exInvalidXML, exAppE4SMT);
+using namespace Targoman;
+using namespace Targoman::Common;
+using namespace Targoman::Apps;
 
-class XMLReader
+int main(int _argc, char *_argv[])
 {
-public:
-  static bool isValid(const QString& _inFile);
-  static QStringList getContext(const QString& _inFile, bool _keepTitles);
+    try{
+        QCoreApplication App(_argc, _argv);
 
-private:
-  static void xmlErrorHandler(void* _userData, xmlErrorPtr _error);
-};
+        Configuration::ConfigManager::instance().init(
+                    QString(LicenseStr).arg(_argv[0]).arg(TARGOMAN_M2STR(PROJ_VERSION)).arg(__DATE__),
+                    App.arguments().mid(1)
+                    );
 
+        QTimer::singleShot(10, new appE4SMT, SLOT(slotExecute()));
+
+        return App.exec();
+    }catch(exTargomanBase& e){
+        TargomanError(e.what());
+    }catch (std::exception &e){
+        TargomanError(e.what());
+    }catch(...){
+        TargomanError("FATAL Unrecognized exception");
+    }
+    return -1;
 }
-}
 
-#endif // TARGOMAN_APPS_XMLREADER_H
+
