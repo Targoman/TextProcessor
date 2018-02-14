@@ -20,31 +20,30 @@
  ******************************************************************************/
 /**
  * @author S. Mohammad M. Ziabary <ziabary@targoman.com>
+ * @author Saeed Torabzadeh <saeed.torabzadeh@targoman.com>
  */
 
-#ifndef TARGOMAN_APPS_XMLREADER_H
-#define TARGOMAN_APPS_XMLREADER_H
+#include "UnitTest.h"
 
-#include <QStringList>
-#include <libxml/xmlreader.h>
-#include "Configs.h"
+using namespace Targoman::Common;
+using namespace Targoman::NLPLibs;
 
-namespace Targoman {
-namespace Apps {
+void UnitTest::initTestCase(){
+//    Targoman::Common::Logger::instance().init("log.log");
+    Targoman::Common::TARGOMAN_IO_SETTINGS.Debug.setLevel(1);
+    Targoman::Common::TARGOMAN_IO_SETTINGS.Debug.setDetails(true);
+    Targoman::Common::Logger::instance().setActive(false);
 
-TARGOMAN_ADD_EXCEPTION_HANDLER(exInvalidXML, exAppE4SMT);
-
-class XMLReader
-{
-public:
-  static bool isValid(const QString& _inFile);
-  static QStringList getContext(const QString& _inFile, bool _keepTitles);
-
-private:
-  static void xmlErrorHandler(void* _userData, xmlErrorPtr _error);
-};
-
-}
+    Targoman::NLPLibs::TargomanTextProcessor::stuConfigs Configs;
+    QDir ApplicationDir(QCoreApplication::applicationDirPath());
+    Configs.NormalizationFile = ApplicationDir.absoluteFilePath("../conf/Normalization.conf");
+    Configs.AbbreviationsFile = ApplicationDir.absoluteFilePath("../conf/Abbreviations.tbl");
+    Configs.SpellCorrectorBaseConfigPath = ApplicationDir.absoluteFilePath("../conf/SpellCorrectors");
+    QVariantHash PersianSpellCorrector;
+    PersianSpellCorrector.insert("Active", true);
+    Configs.SpellCorrectorLanguageBasedConfigs.insert("fa", PersianSpellCorrector);
+    Targoman::NLPLibs::TargomanTextProcessor::instance().init(Configs);
 }
 
-#endif // TARGOMAN_APPS_XMLREADER_H
+QTEST_MAIN(UnitTest)
+

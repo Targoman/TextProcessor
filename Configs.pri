@@ -18,13 +18,11 @@
 #   You should have received a copy of the GNU Lesser General Public License
 #   along with Targoman. If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-ProjectName="E4SMT"
-VERSION=1.0.0
+ProjectName="TargomanTextProcessor"
+VERSION=0.1.0
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
-ProjectDependencies+=TargomanCommon \
-                     TargomanTextProcessor \
-                     xml2
+ProjectDependencies+=TargomanCommon
 
 ################################################################################
 #                       DO NOT CHANGE ANYTHING BELOW                           #
@@ -44,12 +42,13 @@ DependencySearchPaths +=$$BaseOutput/out/lib
 INCLUDEPATH+=$$BaseOutput/out/include
 
 !exists($$ProjectConfig){
-error("** $$ProjectName: Unable to find Configuration file $$ProjectConfig ** ")
+error("***** $$ProjectName: Unable to find Configuration file $$ProjectConfig ***** ")
 }
 
 include ($$ProjectConfig)
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
+
 for(Project, ProjectDependencies) {
   for(Path, FullDependencySearchPaths):isEmpty( Found ) {
       message(Looking for $$Project in $$Path/)
@@ -60,9 +59,9 @@ for(Project, ProjectDependencies) {
       message("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
   }
   isEmpty( Found ) {
-    message("*****************************************************************")
+    message("***********************************************************************************************")
     message("!!!!!! $$ProjectName Depends on $$Project but not found ")
-    message("*****************************************************************")
+    message("***********************************************************************************************")
     error("")
   }
   Found = ""

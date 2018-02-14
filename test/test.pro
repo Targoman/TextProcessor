@@ -18,23 +18,15 @@
 #   You should have received a copy of the GNU Lesser General Public License
 #   along with Targoman. If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-BasePath = "."
+BasePath = ".."
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
-HEADERS += \
-    src/appE4SMT.h \
-    src/Configs.h \
-    src/XMLReader.h
+HEADERS +=
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
 SOURCES += \
-    src/main.cpp \
-    src/appE4SMT.cpp \
-    src/Configs.cpp \
-    src/XMLReader.cpp
+    main.cpp
 
-DependencySearchPaths+=/usr/lib/x86_64-linux-gnu/ # to fix buggy installation location of libxml2 on ubunut and mint
-INCLUDEPATH+=/usr/include/libxml2/ # to fix buggy installation location of libxml2 on ubunut and mint
 ################################################################################
 #                       DO NOT CHANGE ANYTHING BELOW                           #
 ################################################################################
@@ -45,9 +37,11 @@ error("**** libsrc: Unable to find Configuration file $$ConfigFile ****")
 include ($$ConfigFile)
 
 TEMPLATE = app
-TARGET = $$ProjectName
-DESTDIR = $$BaseBinFolder
+TARGET = test_$$ProjectName
+DESTDIR = $$BaseTestBinFolder
 OBJECTS_DIR = $$BaseBuildFolder/obj
 MOC_DIR = $$BaseBuildFolder/moc
-INCLUDEPATH += $$BasePath/libsrc
+INCLUDEPATH += $$BasePath/libsrc \
+               $$BasePath/libsrc/lib$$ProjectName
 QMAKE_LIBDIR += $$BaseLibraryFolder
+LIBS += -l$$ProjectName
