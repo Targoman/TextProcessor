@@ -22,14 +22,14 @@ BasePath = "."
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
 HEADERS += \
-    src/appE4SMT.h \
+    src/appE4MT.h \
     src/Configs.h \
     src/XMLReader.h
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
 SOURCES += \
     src/main.cpp \
-    src/appE4SMT.cpp \
+    src/appE4MT.cpp \
     src/Configs.cpp \
     src/XMLReader.cpp
 

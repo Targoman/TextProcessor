@@ -76,7 +76,7 @@ QStringList XMLReader::getContext(const QString &_inFile, bool _keepTitles)
     QFile File(_inFile);
     File.open(QIODevice::ReadOnly);
     if (File.isReadable() == false)
-        throw exAppE4SMT("Unable to open <" + _inFile + "> for reading.");
+        throw exAppE4MT("Unable to open <" + _inFile + "> for reading.");
 
     QXmlStreamReader XMLReader(&File);
 

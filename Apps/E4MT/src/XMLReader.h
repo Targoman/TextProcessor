@@ -32,7 +32,7 @@
 namespace Targoman {
 namespace Apps {
 
-TARGOMAN_ADD_EXCEPTION_HANDLER(exInvalidXML, exAppE4SMT);
+TARGOMAN_ADD_EXCEPTION_HANDLER(exInvalidXML, exAppE4MT);
 
 class XMLReader
 {

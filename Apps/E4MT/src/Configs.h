@@ -33,7 +33,7 @@
 namespace Targoman {
 namespace Apps {
 
-TARGOMAN_ADD_EXCEPTION_HANDLER(exAppE4SMT, Common::exTargomanBase);
+TARGOMAN_ADD_EXCEPTION_HANDLER(exAppE4MT, Common::exTargomanBase);
 
 TARGOMAN_DEFINE_ENHANCED_ENUM(enuAppMode,
                               Text2IXML,

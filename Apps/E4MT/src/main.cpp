@@ -27,7 +27,7 @@
 #include "libTargomanCommon/Macros.h"
 #include "libTargomanCommon/Configuration/ConfigManager.h"
 
-#include "appE4SMT.h"
+#include "appE4MT.h"
 
 const char* LicenseStr =
 "%1 Ver: %2 Build %3\n"
@@ -49,7 +49,7 @@ int main(int _argc, char *_argv[])
                     App.arguments().mid(1)
                     );
 
-        QTimer::singleShot(10, new appE4SMT, SLOT(slotExecute()));
+        QTimer::singleShot(10, new appE4MT, SLOT(slotExecute()));
 
         return App.exec();
     }catch(exTargomanBase& e){
