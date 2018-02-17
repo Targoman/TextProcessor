@@ -19,7 +19,7 @@
 #   along with Targoman. If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 ProjectName="E4MT"
-VERSION=1.0.0
+VERSION=2.0.0
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
 ProjectDependencies+=TargomanCommon \
