@@ -9,7 +9,7 @@ RUN apk update && apk upgrade \
     && ln -s /lib/libz.so /usr/lib/ \
     && wget -qO- https://github.com/Targoman/ISO639/archive/v1.0.tar.gz         | tar xvz \
     && wget -qO- https://github.com/Targoman/TargomanCommon/archive/v1.0.tar.gz | tar xvz \
-    && wget -qO- https://github.com/Targoman/TextProcessor/archive/v1.0.tar.gz  | tar xvz \
+    && wget -qO- https://github.com/Targoman/TextProcessor/archive/v1.1.0.tar.gz  | tar xvz \
     && wget -qO- https://github.com/Targoman/qjsonrpc/archive/v1.1.0.tar.gz     | tar xvz \
     && mkdir -p ~/local/include \
     && cp ISO639-1.0/ISO639.h ~/local/include \
@@ -18,6 +18,7 @@ RUN apk update && apk upgrade \
     && cd TextProcessor-1.0  && ./buildAndTest.sh full release && make install && cd .. \
     && mv ~/local/bin/* /usr/bin \
     && mv ~/local/lib/* /usr/lib \
+    && mkdir -p /etc/E4MT \
     && mv ~/local/conf/* /etc/E4MT \
     && apk del .build-dependencies \
     && rm -rf /tmp/* \
