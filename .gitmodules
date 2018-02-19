@@ -1,0 +1,6 @@
+[submodule "TargomanCommon"]
+	path = TargomanCommon
+	url = https://github.com/Targoman/TargomanCommon.git
+[submodule "ISO639"]
+	path = ISO639
+	url = https://github.com/Targoman/ISO639.git
