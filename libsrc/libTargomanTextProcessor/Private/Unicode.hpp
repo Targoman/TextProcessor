@@ -2196,8 +2196,8 @@ QString arabicNormalizer(uint _ucs4){
 }
 
 static QMap<QChar::Script, ScriptBasedNormalizer> QCharScriptToNormalizerMap {
-    {QChar::Script_Unknown, NULL},
-    {QChar::Script_Inherited, NULL},
+    {QChar::Script_Unknown, nullptr},
+    {QChar::Script_Inherited, nullptr},
     {QChar::Script_Common, latin2Ascii},
     {QChar::Script_Latin, latin2Ascii},
     {QChar::Script_Greek, greek2Ascii},
@@ -2223,82 +2223,82 @@ static QMap<QChar::Script, ScriptBasedNormalizer> QCharScriptToNormalizerMap {
     {QChar::Script_Myanmar, acceptAll},
     {QChar::Script_Georgian, acceptAll},
     {QChar::Script_Hangul, acceptAll},
-    {QChar::Script_Ethiopic, NULL},
-    {QChar::Script_Cherokee, NULL},
-    {QChar::Script_CanadianAboriginal, NULL},
+    {QChar::Script_Ethiopic, nullptr},
+    {QChar::Script_Cherokee, nullptr},
+    {QChar::Script_CanadianAboriginal, nullptr},
     {QChar::Script_Ogham, acceptAll},
     {QChar::Script_Runic, acceptAll},
     {QChar::Script_Khmer, acceptAll},
-    {QChar::Script_Mongolian, NULL},
-    {QChar::Script_Hiragana, NULL},
-    {QChar::Script_Katakana, NULL},
-    {QChar::Script_Bopomofo, NULL},
-    {QChar::Script_Han, NULL},
-    {QChar::Script_Yi, NULL},
-    {QChar::Script_OldItalic, NULL},
-    {QChar::Script_Gothic, NULL},
-    {QChar::Script_Deseret, NULL},
-    {QChar::Script_Tagalog, NULL},
-    {QChar::Script_Hanunoo, NULL},
-    {QChar::Script_Buhid, NULL},
-    {QChar::Script_Tagbanwa, NULL},
-    {QChar::Script_Coptic, NULL},
-    {QChar::Script_Limbu, NULL},
-    {QChar::Script_TaiLe, NULL},
-    {QChar::Script_LinearB, NULL},
-    {QChar::Script_Ugaritic, NULL},
-    {QChar::Script_Shavian, NULL},
-    {QChar::Script_Osmanya, NULL},
-    {QChar::Script_Cypriot, NULL},
+    {QChar::Script_Mongolian, nullptr},
+    {QChar::Script_Hiragana, nullptr},
+    {QChar::Script_Katakana, nullptr},
+    {QChar::Script_Bopomofo, nullptr},
+    {QChar::Script_Han, nullptr},
+    {QChar::Script_Yi, nullptr},
+    {QChar::Script_OldItalic, nullptr},
+    {QChar::Script_Gothic, nullptr},
+    {QChar::Script_Deseret, nullptr},
+    {QChar::Script_Tagalog, nullptr},
+    {QChar::Script_Hanunoo, nullptr},
+    {QChar::Script_Buhid, nullptr},
+    {QChar::Script_Tagbanwa, nullptr},
+    {QChar::Script_Coptic, nullptr},
+    {QChar::Script_Limbu, nullptr},
+    {QChar::Script_TaiLe, nullptr},
+    {QChar::Script_LinearB, nullptr},
+    {QChar::Script_Ugaritic, nullptr},
+    {QChar::Script_Shavian, nullptr},
+    {QChar::Script_Osmanya, nullptr},
+    {QChar::Script_Cypriot, nullptr},
     {QChar::Script_Braille, acceptAll},
-    {QChar::Script_Buginese, NULL},
-    {QChar::Script_NewTaiLue, NULL},
-    {QChar::Script_Glagolitic, NULL},
-    {QChar::Script_Tifinagh, NULL},
-    {QChar::Script_SylotiNagri, NULL},
-    {QChar::Script_OldPersian, NULL},
-    {QChar::Script_Kharoshthi, NULL},
-    {QChar::Script_Balinese, NULL},
-    {QChar::Script_Cuneiform, NULL},
-    {QChar::Script_Phoenician, NULL},
-    {QChar::Script_PhagsPa, NULL},
+    {QChar::Script_Buginese, nullptr},
+    {QChar::Script_NewTaiLue, nullptr},
+    {QChar::Script_Glagolitic, nullptr},
+    {QChar::Script_Tifinagh, nullptr},
+    {QChar::Script_SylotiNagri, nullptr},
+    {QChar::Script_OldPersian, nullptr},
+    {QChar::Script_Kharoshthi, nullptr},
+    {QChar::Script_Balinese, nullptr},
+    {QChar::Script_Cuneiform, nullptr},
+    {QChar::Script_Phoenician, nullptr},
+    {QChar::Script_PhagsPa, nullptr},
     {QChar::Script_Nko, acceptAll},
-    {QChar::Script_Sundanese, NULL},
-    {QChar::Script_Lepcha, NULL},
-    {QChar::Script_OlChiki, NULL},
-    {QChar::Script_Vai, NULL},
-    {QChar::Script_Saurashtra, NULL},
-    {QChar::Script_KayahLi, NULL},
-    {QChar::Script_Rejang, NULL},
-    {QChar::Script_Lycian, NULL},
-    {QChar::Script_Carian, NULL},
-    {QChar::Script_Lydian, NULL},
-    {QChar::Script_Cham, NULL},
-    {QChar::Script_TaiTham, NULL},
-    {QChar::Script_TaiViet, NULL},
-    {QChar::Script_Avestan, NULL},
-    {QChar::Script_EgyptianHieroglyphs, NULL},
-    {QChar::Script_Samaritan, NULL},
-    {QChar::Script_Lisu, NULL},
-    {QChar::Script_Bamum, NULL},
-    {QChar::Script_Javanese, NULL},
-    {QChar::Script_MeeteiMayek, NULL},
-    {QChar::Script_ImperialAramaic, NULL},
-    {QChar::Script_OldSouthArabian, NULL},
-    {QChar::Script_InscriptionalParthian, NULL},
-    {QChar::Script_InscriptionalPahlavi, NULL},
-    {QChar::Script_OldTurkic, NULL},
-    {QChar::Script_Kaithi, NULL},
-    {QChar::Script_Batak, NULL},
-    {QChar::Script_Brahmi, NULL},
-    {QChar::Script_Mandaic, NULL},
-    {QChar::Script_Chakma, NULL},
-    {QChar::Script_MeroiticCursive, NULL},
-    {QChar::Script_MeroiticHieroglyphs, NULL},
-    {QChar::Script_Miao, NULL},
-    {QChar::Script_Sharada, NULL},
-    {QChar::Script_SoraSompeng, NULL},
-    {QChar::Script_Takri, NULL}
+    {QChar::Script_Sundanese, nullptr},
+    {QChar::Script_Lepcha, nullptr},
+    {QChar::Script_OlChiki, nullptr},
+    {QChar::Script_Vai, nullptr},
+    {QChar::Script_Saurashtra, nullptr},
+    {QChar::Script_KayahLi, nullptr},
+    {QChar::Script_Rejang, nullptr},
+    {QChar::Script_Lycian, nullptr},
+    {QChar::Script_Carian, nullptr},
+    {QChar::Script_Lydian, nullptr},
+    {QChar::Script_Cham, nullptr},
+    {QChar::Script_TaiTham, nullptr},
+    {QChar::Script_TaiViet, nullptr},
+    {QChar::Script_Avestan, nullptr},
+    {QChar::Script_EgyptianHieroglyphs, nullptr},
+    {QChar::Script_Samaritan, nullptr},
+    {QChar::Script_Lisu, nullptr},
+    {QChar::Script_Bamum, nullptr},
+    {QChar::Script_Javanese, nullptr},
+    {QChar::Script_MeeteiMayek, nullptr},
+    {QChar::Script_ImperialAramaic, nullptr},
+    {QChar::Script_OldSouthArabian, nullptr},
+    {QChar::Script_InscriptionalParthian, nullptr},
+    {QChar::Script_InscriptionalPahlavi, nullptr},
+    {QChar::Script_OldTurkic, nullptr},
+    {QChar::Script_Kaithi, nullptr},
+    {QChar::Script_Batak, nullptr},
+    {QChar::Script_Brahmi, nullptr},
+    {QChar::Script_Mandaic, nullptr},
+    {QChar::Script_Chakma, nullptr},
+    {QChar::Script_MeroiticCursive, nullptr},
+    {QChar::Script_MeroiticHieroglyphs, nullptr},
+    {QChar::Script_Miao, nullptr},
+    {QChar::Script_Sharada, nullptr},
+    {QChar::Script_SoraSompeng, nullptr},
+    {QChar::Script_Takri, nullptr}
 };
 
 /*
@@ -2331,45 +2331,45 @@ const ScriptBasedNormalizer ScriptBasedNormalizers[]={
     acceptAll,//    Runic,        //26
     acceptAll,//    Khmer,        //27
     acceptAll,//    Nko,          //28
-    NULL,//    Inherited,    //29
-    NULL,//    ScriptCount,  //30
+    nullptr,//    Inherited,    //29
+    nullptr,//    ScriptCount,  //30
     latin2Ascii,//    Latin,        //31
-    NULL,//    Ethiopic,     //32
-    NULL,//    Cherokee,     //33
-    NULL,//    CanadianAboriginal,   //34
-    NULL,//    Mongolian,    //35
-    NULL,//    Hiragana,     //36
-    NULL,//    Katakana,     //37
-    NULL,//    Bopomofo,     //38
-    NULL,//    Han,          //39
-    NULL,//    Yi,           //40
-    NULL,//    OldItalic,    //41
-    NULL,//    Gothic,       //42
-    NULL,//    Deseret,      //43
-    NULL,//    Tagalog,      //44
-    NULL,//    Hanunoo,      //45
-    NULL,//    Buhid,        //46
-    NULL,//    Tagbanwa,     //47
-    NULL,//    Limbu,        //48
-    NULL,//    TaiLe,        //49
-    NULL,//    LinearB,      //50
-    NULL,//    Ugaritic,     //51
-    NULL,//    Shavian,      //52
-    NULL,//    Osmanya,      //53
-    NULL,//    Cypriot,      //54
+    nullptr,//    Ethiopic,     //32
+    nullptr,//    Cherokee,     //33
+    nullptr,//    CanadianAboriginal,   //34
+    nullptr,//    Mongolian,    //35
+    nullptr,//    Hiragana,     //36
+    nullptr,//    Katakana,     //37
+    nullptr,//    Bopomofo,     //38
+    nullptr,//    Han,          //39
+    nullptr,//    Yi,           //40
+    nullptr,//    OldItalic,    //41
+    nullptr,//    Gothic,       //42
+    nullptr,//    Deseret,      //43
+    nullptr,//    Tagalog,      //44
+    nullptr,//    Hanunoo,      //45
+    nullptr,//    Buhid,        //46
+    nullptr,//    Tagbanwa,     //47
+    nullptr,//    Limbu,        //48
+    nullptr,//    TaiLe,        //49
+    nullptr,//    LinearB,      //50
+    nullptr,//    Ugaritic,     //51
+    nullptr,//    Shavian,      //52
+    nullptr,//    Osmanya,      //53
+    nullptr,//    Cypriot,      //54
     acceptAll,//    Braille,      //55
-    NULL,//    Buginese,     //56
-    NULL,//    Coptic,       //57
-    NULL,//    NewTaiLue,    //58
-    NULL,//    Glagolitic,   //59
-    NULL,//    Tifinagh,     //60
-    NULL,//    SylotiNagri,  //61
-    NULL,//    OldPersian,   //62
-    NULL,//    Kharoshthi,   //63
-    NULL,//    Balinese,     //64
-    NULL,//    Cuneiform,    //65
-    NULL,//    Phoenician,   //66
-    NULL,//    PhagsPa       //67
+    nullptr,//    Buginese,     //56
+    nullptr,//    Coptic,       //57
+    nullptr,//    NewTaiLue,    //58
+    nullptr,//    Glagolitic,   //59
+    nullptr,//    Tifinagh,     //60
+    nullptr,//    SylotiNagri,  //61
+    nullptr,//    OldPersian,   //62
+    nullptr,//    Kharoshthi,   //63
+    nullptr,//    Balinese,     //64
+    nullptr,//    Cuneiform,    //65
+    nullptr,//    Phoenician,   //66
+    nullptr,//    PhagsPa       //67
 };
 */
 

@@ -44,7 +44,7 @@ namespace Private {
  * @brief instructor of this class adds default languages data to the #Processors variable.
  */
 SpellCorrector::SpellCorrector():
-    refNormalizerInstance(this->refNormalizerInstance)
+    refNormalizerInstance(Normalizer::instance())
 {}
 
 /**
@@ -67,7 +67,7 @@ void SpellCorrector::init(const QString& _baseConfigPath, const QHash<QString, Q
     QString LangCode;
     foreach (const QString Lang, this->Processors.keys()){
         LangCode = ISO639getAlpha2(Lang.toLatin1().constData());
-        if (this->Processors.value(Lang, NULL) && this->Processors.value(Lang)->active() == false)
+        if (this->Processors.value(Lang, nullptr) && this->Processors.value(Lang)->active() == false)
             delete this->Processors.take(Lang);
     }
 }
@@ -87,7 +87,7 @@ QString SpellCorrector::process(const QString& _lang,
                                 INOUT bool& _changed,
                                 bool _interactive)
 {
-    intfSpellCorrector* Processor = this->Processors.value(_lang, NULL);
+    intfSpellCorrector* Processor = this->Processors.value(_lang, nullptr);
     if (!Processor)
         return _inputStr;
 

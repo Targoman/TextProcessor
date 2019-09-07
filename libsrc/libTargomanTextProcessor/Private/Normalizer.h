@@ -108,7 +108,7 @@ private:
 
     void add2Configs(enuDicType::Type _type, QChar _originalChar, QChar _replacement = QChar());
     QString char2Str(const QChar &_char, bool _hexForced = false);
-    QList<QChar> str2QChar(QString _str, quint16 _line, bool _allowRange = true);
+    QList<QChar> str2QChar(QString _str, int _line, bool _allowRange = true);
 
 private:
     QHash<QChar,QString>    ReplacingTable;             /** < A Map to contain chars that should be replaced. Content of this variable will be added using Normalization config file. */

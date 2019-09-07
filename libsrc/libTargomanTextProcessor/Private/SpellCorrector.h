@@ -120,7 +120,7 @@ class SpellCorrector
 {
 public:
     static SpellCorrector& instance() {
-        static SpellCorrector* Instance = NULL;
+        static SpellCorrector* Instance = nullptr;
         return Q_LIKELY(Instance) ? *Instance : *(Instance = new SpellCorrector);
     }
 

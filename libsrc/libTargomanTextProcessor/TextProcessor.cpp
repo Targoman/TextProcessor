@@ -38,8 +38,7 @@ using namespace Targoman::NLPLibs::TargomanTP::Private;
 namespace Targoman {
 namespace NLPLibs {
 
-bool Initialized = false;
-
+static bool Initialized = false;
 
 /**
  * @brief TextProcessor::TextProcessor

@@ -362,9 +362,9 @@ QString Normalizer::normalize(const QString &_string, qint32 _line, bool _intera
         QString normalizedCharString = this->normalize(_string.at(i),
                                                        ((i + 1) < _string.size() ? _string.at(i+1) : QChar('\n')),
                                                        _interactive,
-                                                       _line,
+                                                       static_cast<quint32>(_line),
                                                        _string,
-                                                       i);
+                                                       static_cast<size_t>(i));
         Normalized.append(normalizedCharString);
     }
     return fullTrim(Normalized);
@@ -417,6 +417,7 @@ void Normalizer::add2Configs(enuDicType::Type _type, QChar _originalChar, QChar 
                 switch(_type){
                 case enuDicType::NotSure:
                     ConfigFileOut.write(("NEW " + this->char2Str(_originalChar) + "\n").toUtf8());
+                    [[clang::fallthrough]];
                 case enuDicType::WhiteList:
                 case enuDicType::RemovingCharacters:
                 case enuDicType::SpaceCharacters:
@@ -482,7 +483,7 @@ QString Normalizer::char2Str(const QChar &_char, bool _hexForced)
  * @exception throws exception if input string does not contains a valid input pattern.
  * @return Returns a list QChars, extracted from input string.
  */
-QList<QChar> Normalizer::str2QChar(QString _str, quint16 _line, bool _allowRange)
+QList<QChar> Normalizer::str2QChar(QString _str, int _line, bool _allowRange)
 {
     thread_local static QRegExp RxRange = QRegExp("<0[x][0-9a-fA-F]+>-<0[x][0-9a-fA-F]+>");
     thread_local static QRegExp RxQChar = QRegExp("<0[x][0-9a-fA-F]+>");
@@ -492,14 +493,14 @@ QList<QChar> Normalizer::str2QChar(QString _str, quint16 _line, bool _allowRange
         Chars.append(_str.at(0));
     else if (_str.contains(RxRange)){
         if(_allowRange){
-            uint RangeStart = _str.split("-").first().replace("<0x","").replace(">","").toUInt(NULL,16);
-            uint RangeEnd = _str.split("-").last().replace("<0x","").replace(">","").toUInt(NULL,16);
+            uint RangeStart = _str.split("-").first().replace("<0x","").replace(">","").toUInt(nullptr,16);
+            uint RangeEnd = _str.split("-").last().replace("<0x","").replace(">","").toUInt(nullptr,16);
             for (uint i=RangeStart; i<=RangeEnd;i++)
                 Chars.append(QChar(i));
         }else
             throw exNormalizer(("Invalid normalization character at line "+ QString::number(_line)+": <" + _str + ">"));
     }else if (_str.contains(RxQChar))
-        Chars.append(QChar(_str.replace("<0x","").replace(">","").toUInt(NULL, 16)));
+        Chars.append(QChar(_str.replace("<0x","").replace(">","").toUInt(nullptr, 16)));
     else
         throw exNormalizer(("Invalid normalization character at line "+ QString::number(_line)+": <" + _str + ">"));
 

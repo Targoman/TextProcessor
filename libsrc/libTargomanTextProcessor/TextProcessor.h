@@ -75,7 +75,7 @@ public:
 
 public:
     static inline TargomanTextProcessor& instance(){
-        static TargomanTextProcessor* Instance = NULL;
+        static TargomanTextProcessor* Instance = nullptr;
         return *(Q_LIKELY(Instance) ? Instance : (Instance = new TargomanTextProcessor));
     }
 
