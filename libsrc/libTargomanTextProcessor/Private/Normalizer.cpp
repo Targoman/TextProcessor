@@ -525,7 +525,7 @@ void Normalizer::init(const QString &_configFile, bool _binaryMode)
 
     if (_binaryMode){
         if (QFile::exists(_configFile) == false)
-            throw exNormalizer("File <" + _configFile + " not found.");
+            throw exNormalizer("TextProcessor Normalization File <" + _configFile + " not found.");
         QFile BinFile(_configFile);
         BinFile.open(QFile::ReadOnly);
         if (!BinFile.isReadable())
