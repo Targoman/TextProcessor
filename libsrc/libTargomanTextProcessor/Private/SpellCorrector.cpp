@@ -25,7 +25,6 @@
  */
 
 #include <iostream>
-#include <QRegExp>
 #include <QTextStream>
 #include <QFile>
 #include <QStringList>

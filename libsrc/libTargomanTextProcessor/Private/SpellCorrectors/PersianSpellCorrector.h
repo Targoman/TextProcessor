@@ -28,7 +28,6 @@
 #define TARGOMAN_NLPLIBS_TARGOMANTP_PRIVATE_SPELLCORRECTORS_CLSPERSIANSPELLCORRECTOR_H
 
 #include <QSet>
-#include <QRegExp>
 #include "libTargomanTextProcessor/Private/SpellCorrector.h"
 
 namespace Targoman {

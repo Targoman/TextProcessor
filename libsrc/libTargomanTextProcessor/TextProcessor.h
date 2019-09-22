@@ -53,10 +53,10 @@ TARGOMAN_DEFINE_ENHANCED_ENUM(enuTextTags,
 TARGOMAN_ADD_EXCEPTION_HANDLER(exTextProcessor, Targoman::Common::exTargomanBase);
 
 struct stuIXMLReplacement{
-    QRegExp SearchRegExp;
+    QRegularExpression SearchRegExp;
     QString AfterString;
 
-    stuIXMLReplacement(const QRegExp& _searchRegExp = QRegExp(),
+    stuIXMLReplacement(const QRegularExpression& _searchRegExp = QRegularExpression(),
                        const QString& _afterString = QString()):
         SearchRegExp(_searchRegExp),
         AfterString(_afterString)

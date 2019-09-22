@@ -485,8 +485,8 @@ QString Normalizer::char2Str(const QChar &_char, bool _hexForced)
  */
 QList<QChar> Normalizer::str2QChar(QString _str, int _line, bool _allowRange)
 {
-    thread_local static QRegExp RxRange = QRegExp("<0[x][0-9a-fA-F]+>-<0[x][0-9a-fA-F]+>");
-    thread_local static QRegExp RxQChar = QRegExp("<0[x][0-9a-fA-F]+>");
+    thread_local static QRegularExpression RxRange = QRegularExpression("<0[x][0-9a-fA-F]+>-<0[x][0-9a-fA-F]+>");
+    thread_local static QRegularExpression RxQChar = QRegularExpression("<0[x][0-9a-fA-F]+>");
 
     QList<QChar> Chars;
     if (_str.size() == 1)

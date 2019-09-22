@@ -35,7 +35,7 @@ namespace Private {
 namespace SpellCorrectors {
 
 //Essential global instance in order to be registered in SpellCorrectors
-PersianSpellCorrector Instance;
+static PersianSpellCorrector Instance;
 
 const QString PERSIAN_Mi         = QStringLiteral("می");
 const QString PERSIAN_Nemi       = QStringLiteral("نمی");
@@ -52,21 +52,24 @@ const QString PERSIAN_Noon       = QStringLiteral("ن");
 const QString PERSIAN_Ye         = QStringLiteral("ی");
 //const QChar Fathatan             = QChar(0x64B);
 
-thread_local QRegExp PERSIAN_RxInteractiveChars    = QRegExp(QStringLiteral("[ؤئإأآ]"));
-thread_local QRegExp PERSIAN_RxPresentImperfect    = QRegExp(QStringLiteral("(م|ی|د|یم|ید|ند)$"));
-thread_local QRegExp PERSIAN_RxPastImperfect       = QRegExp(QStringLiteral("(م|ی|یم|ید|ند)$"));
-thread_local QRegExp PERSIAN_RxPastPerfect         = QRegExp(QStringLiteral("(بودم|بودی|بود|بودیم|بودید|بودند|باشم|باشی|باشد|باشیم|باشید|باشند)$"));
-thread_local QRegExp PERSIAN_RxVerbPerfect         = QRegExp(QStringLiteral("(ام|ای|است|ایم|اید|اند)$"));
-thread_local QRegExp PERSIAN_RxHa                  = QRegExp(QStringLiteral("ها‌?(یی?|یم|یت|یش|یمان|یتان|یشان)?$"));
-thread_local QRegExp PERSIAN_RxAn                  = QRegExp(QStringLiteral("ی?ان(ی|م|ت|ش|مان|تان|شان)?$"));
-thread_local QRegExp PERSIAN_RxPossesive           = QRegExp(QStringLiteral("(م|ت|ش|مان|تان|شان|ام|ات|اش|یم|یت|یش|یمان|یتان|یشان)$"));
-thread_local QRegExp PERSIAN_RxEndWithHa           = QRegExp(".*" + PERSIAN_RxHa.pattern());
-thread_local QRegExp PERSIAN_RxEndWithAn           = QRegExp(".*" + PERSIAN_RxAn.pattern());
-thread_local QRegExp PERSIAN_RxEndPresentImperfect = QRegExp(".*" + PERSIAN_RxPresentImperfect.pattern());
-thread_local QRegExp PERSIAN_RxEndPastImperfect    = QRegExp(".*" + PERSIAN_RxPastImperfect.pattern());
-thread_local QRegExp PERSIAN_RxEndPastPerfect      = QRegExp(".*" + PERSIAN_RxPastPerfect.pattern());
-thread_local QRegExp PERSIAN_RxEndVerbPerfect      = QRegExp(".*" + PERSIAN_RxVerbPerfect.pattern());
-thread_local QRegExp PERSIAN_RxEndWithPossesive    = QRegExp(".*" + PERSIAN_RxPossesive.pattern());
+thread_local static  QRegularExpression PERSIAN_RxInteractiveChars    = QRegularExpression(QStringLiteral("[ؤئإأآ]"));
+thread_local static  QRegularExpression PERSIAN_RxPresentImperfect    = QRegularExpression(QStringLiteral("(م|ی|د|یم|ید|ند)$"));
+thread_local static  QRegularExpression PERSIAN_RxPastImperfect       = QRegularExpression(QStringLiteral("(م|ی|یم|ید|ند)$"));
+thread_local static  QRegularExpression PERSIAN_RxPastPerfect         = QRegularExpression(QStringLiteral("(بودم|بودی|بود|بودیم|بودید|بودند|باشم|باشی|باشد|باشیم|باشید|باشند)$"));
+thread_local static  QRegularExpression PERSIAN_RxVerbPerfect         = QRegularExpression(QStringLiteral("(ام|ای|است|ایم|اید|اند)$"));
+thread_local static  QRegularExpression PERSIAN_RxEndPresentImperfect = QRegularExpression(".*" + PERSIAN_RxPresentImperfect.pattern().mid(0));
+thread_local static  QRegularExpression PERSIAN_RxEndPastImperfect    = QRegularExpression(".*" + PERSIAN_RxPastImperfect.pattern().mid(0));
+thread_local static  QRegularExpression PERSIAN_RxEndPastPerfect      = QRegularExpression(".*" + PERSIAN_RxPastPerfect.pattern().mid(0));
+thread_local static  QRegularExpression PERSIAN_RxEndVerbPerfect      = QRegularExpression(".*" + PERSIAN_RxVerbPerfect.pattern().mid(0));
+
+
+thread_local static  QRegularExpression PERSIAN_RxHa                  = QRegularExpression(QStringLiteral("ها‌?(یی?|یم|یت|یش|یمان|یتان|یشان)?$"));
+thread_local static  QRegularExpression PERSIAN_RxAn                  = QRegularExpression(QStringLiteral("ی?ان(ی|م|ت|ش|مان|تان|شان)?$"));
+thread_local static  QRegularExpression PERSIAN_RxPossesive           = QRegularExpression(QStringLiteral("(م|ت|ش|مان|تان|شان|ام|ات|اش|یم|یت|یش|یمان|یتان|یشان)$"));
+
+thread_local static  QRegularExpression PERSIAN_RxEndWithHa           = QRegularExpression(".*" + PERSIAN_RxHa.pattern().mid(0));
+thread_local static  QRegularExpression PERSIAN_RxEndWithAn           = QRegularExpression(".*" + PERSIAN_RxAn.pattern().mid(0));
+thread_local static  QRegularExpression PERSIAN_RxEndWithPossesive    = QRegularExpression(".*" + PERSIAN_RxPossesive.pattern().mid(0));
 
 
 PersianSpellCorrector::PersianSpellCorrector() :
@@ -112,7 +115,7 @@ QString PersianSpellCorrector::process(const QStringList &_tokens)
     bool TokensUpdated = false;
     // TODO: Put "شده" in a string constant
     if( Tokens.size() > 1 &&
-        (PERSIAN_RxVerbPerfect.exactMatch(Tokens.last()) || PERSIAN_RxPastPerfect.exactMatch(Tokens.last())) &&
+        (PERSIAN_RxVerbPerfect.match(Tokens.last()).hasMatch()|| PERSIAN_RxPastPerfect.match(Tokens.last()).hasMatch()) &&
         Tokens.at(Tokens.size() - 2).endsWith(ARABIC_ZWNJ + QStringLiteral("شده")) ) {
         Tokens[Tokens.size() - 1] = QStringLiteral("شده") + ARABIC_ZWNJ + Tokens.last();
         Tokens[Tokens.size() - 2].truncate(Tokens[Tokens.size() - 2].size() - 4);
@@ -182,7 +185,7 @@ QString PersianSpellCorrector::process(const QStringList &_tokens)
         }
     }
 
-    if (PERSIAN_RxEndVerbPerfect.exactMatch(ComplexWord)){
+    if (PERSIAN_RxEndVerbPerfect.match(ComplexWord).hasMatch()){
         Buffer = ComplexWord;
         Postfix = Buffer;
         Buffer.remove(PERSIAN_RxVerbPerfect);
@@ -288,7 +291,7 @@ QString PersianSpellCorrector::processStartingWithBi_Ba_Na(const QSet<QString>& 
     QStringList Postfixes;
     QString Remainder = Buffer;
 
-    if (PERSIAN_RxEndWithPossesive.exactMatch(Remainder)){
+    if (PERSIAN_RxEndWithPossesive.match(Remainder).hasMatch()){
         Buffer = Remainder;
         Remainder.remove(PERSIAN_RxPossesive); //Remove combinations of Possesive
         Buffer.remove(0,  Remainder.length());
@@ -304,7 +307,7 @@ QString PersianSpellCorrector::processStartingWithBi_Ba_Na(const QSet<QString>& 
     }
 
     bool EndsWithHa = false;
-    if (PERSIAN_RxEndWithHa.exactMatch(Remainder)) {
+    if (PERSIAN_RxEndWithHa.match(Remainder).hasMatch()) {
         Buffer = Remainder;
         Remainder.remove(PERSIAN_RxHa); //Remove combinations of Ha
         Buffer.remove(0, Remainder.length());

@@ -31,6 +31,9 @@
 #include "Private/IXMLWriter.h"
 #include "Private/Configs.h"
 #include <QSettings>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+
 using namespace Targoman::NLPLibs::TargomanTP::Private;
 
 #include "ISO639.h"
@@ -194,13 +197,13 @@ QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _l
         throw exTextProcessor("Text Processor has not been initialized");
     const char* LangCode = ISO639getAlpha2(_lang.toLatin1().constData());
 
-    thread_local static QRegExp RxSuffixes = QRegExp(
+    thread_local static QRegularExpression RxSuffixes = QRegularExpression(
                 QString("(?: )('[%1])(?: )").arg(IXMLWriter::instance().supportedSuffixes()));
 
-    thread_local static QRegExp RxDetokenDQuote = QRegExp("(?:(?: |^)\" )([^\"]+)(?: \"(?: |$))");
-    thread_local static QRegExp RxDetokenQuote  = QRegExp("(?:(?: |^)\\' )([^\\']+)(?: \\'(?: |$))");
-    thread_local static QRegExp RxAllIXMLTags =
-        QRegExp(
+    thread_local static QRegularExpression RxDetokenDQuote = QRegularExpression("(?:(?: |^)\" )([^\"]+)(?: \"(?: |$))");
+    thread_local static QRegularExpression RxDetokenQuote  = QRegularExpression("(?:(?: |^)\\' )([^\\']+)(?: \\'(?: |$))");
+    thread_local static QRegularExpression RxAllIXMLTags =
+        QRegularExpression(
                 QString("<%1>").arg(enuTextTags::options().join(">|<")) +
                 QString("|</%1>").arg(enuTextTags::options().join(">|</"))
                 );
@@ -219,19 +222,20 @@ QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _l
 
         if (_detokenize){
             int Pos=0;
-            while ((Pos=RxDetokenDQuote.indexIn(Lines[i], 0)) != -1) {
+            QRegularExpressionMatch Match;
+            while ((Pos=Lines[i].indexOf(RxDetokenDQuote,0, &Match)) != -1) {
                 Lines[i]=
                         Lines[i].mid(0,Pos) +
-                        " \"" + RxDetokenDQuote.cap(1) + "\" " +
-                        Lines[i].mid(Pos + RxDetokenDQuote.matchedLength());
+                        " \"" + Match.captured(1) + "\" " +
+                        Lines[i].mid(Pos + Match.capturedLength());
             }
 
             Pos=0;
-            while ((Pos=RxDetokenQuote.indexIn(Lines[i], 0)) != -1) {
+            while ((Pos=Lines[i].indexOf(RxDetokenQuote,0, &Match)) != -1) {
                 Lines[i]=
                         Lines[i].mid(0,Pos) +
-                        " '" + RxDetokenQuote.cap(1) + "' " +
-                        Lines[i].mid(Pos + RxDetokenQuote.matchedLength());
+                        " '" + Match.captured(1) + "' " +
+                        Lines[i].mid(Pos + Match.capturedLength());
             }
         }
         Lines[i] = Lines[i].replace ("&gt;", ">");

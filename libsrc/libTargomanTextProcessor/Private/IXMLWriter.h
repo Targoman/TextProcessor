@@ -28,7 +28,6 @@
 #define TARGOMAN_NLPLIBS_TARGOMANTP_PRIVATE_CLSIXMLWRITER_H
 
 #include <QTextStream>
-#include <QRegExp>
 
 #include "../TextProcessor.h"
 #include "Normalizer.h"
@@ -82,7 +81,7 @@ private:
 
 
     QString markByRegex(const QString &_phrase,
-                        QRegExp _regex,
+                        const QRegularExpression &_regex,
                         const QString &_mark,
                         QStringList *_listOfMatches,
                         quint8 _capID = 0);

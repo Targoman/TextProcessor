@@ -65,7 +65,17 @@ int main(int _argc, char *_argv[])
         Configs.SpellCorrectorLanguageBasedConfigs.insert("fa", PersianSpellCorrector);
         TargomanTextProcessor::instance().init(Configs);
 
-        QStringList Tests = {"دانش آموزهای",
+        QStringList Tests = {
+            "می روم",
+            "I.B.M",
+            "من با دم خود میگفتم که با معرفت ترین ها یشان هم نا رفیق بوده اند",
+
+            "Resources and Irrigation Dr. MMahmoud Abu-Zaid.",
+            "-12asd",
+            "12.5.asd",
+            "ماهیانه ای",
+            "چشمهایش",
+            "دانش آموزهای",
                              "عنبرماهی",
                              "عنبر ماهی" ,
                              "پروانهماهی",
