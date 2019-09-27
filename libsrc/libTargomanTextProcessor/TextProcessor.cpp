@@ -210,77 +210,81 @@ QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _l
 
 
     QString IXML = _ixml;
-    QStringList Lines = getIXMLLines (IXML);
-    for (int i = 0; i < Lines.count (); ++i)
-    {
-        //remove first spaces
-        while(Lines[i].size() && Lines[i].at(0) == ' ')
-            Lines[i].remove(0,1);
+    QStringList Textlines;
+    foreach(auto Line, IXML.split("\n", QString::SkipEmptyParts)){
+        QStringList IXMLLines = getIXMLLines (Line);
+        for (int i = 0; i < IXMLLines.count (); ++i)
+        {
+            //remove first spaces
+            while(IXMLLines[i].size() && IXMLLines[i].at(0) == ' ')
+                IXMLLines[i].remove(0,1);
 
-        Lines[i] = Lines[i].replace (RxSuffixes, "\\1 ");
-        Lines[i] = Lines[i].replace (RxAllIXMLTags,"");
+            IXMLLines[i] = IXMLLines[i].replace (RxSuffixes, "\\1 ");
+            IXMLLines[i] = IXMLLines[i].replace (RxAllIXMLTags,"");
 
-        if (_detokenize){
-            int Pos=0;
-            QRegularExpressionMatch Match;
-            while ((Pos=Lines[i].indexOf(RxDetokenDQuote,0, &Match)) != -1) {
-                Lines[i]=
-                        Lines[i].mid(0,Pos) +
-                        " \"" + Match.captured(1) + "\" " +
-                        Lines[i].mid(Pos + Match.capturedLength());
+            if (_detokenize){
+                int Pos=0;
+                QRegularExpressionMatch Match;
+                while ((Pos=IXMLLines[i].indexOf(RxDetokenDQuote,0, &Match)) != -1) {
+                    IXMLLines[i]=
+                            IXMLLines[i].mid(0,Pos) +
+                            " \"" + Match.captured(1) + "\" " +
+                            IXMLLines[i].mid(Pos + Match.capturedLength());
+                }
+
+                Pos=0;
+                while ((Pos=IXMLLines[i].indexOf(RxDetokenQuote,0, &Match)) != -1) {
+                    IXMLLines[i]=
+                            IXMLLines[i].mid(0,Pos) +
+                            " '" + Match.captured(1) + "' " +
+                            IXMLLines[i].mid(Pos + Match.capturedLength());
+                }
+            }
+            IXMLLines[i] = IXMLLines[i].replace ("&gt;", ">");
+            IXMLLines[i] = IXMLLines[i].replace ("&lt;", "<");
+            IXMLLines[i] = IXMLLines[i].replace ("&amp;", "&");
+
+            if (_detokenize){
+                IXMLLines[i] = IXMLLines[i].replace ("  ", " ");
+                IXMLLines[i] = IXMLLines[i].replace ("  ", " ");
+                IXMLLines[i] = IXMLLines[i].replace (" .", ".");
+                IXMLLines[i] = IXMLLines[i].replace (" ,", ",");
+                IXMLLines[i] = IXMLLines[i].replace (" ;", ";");
+                IXMLLines[i] = IXMLLines[i].replace (" :", ":");
+                IXMLLines[i] = IXMLLines[i].replace (" ?", "?");
+                IXMLLines[i] = IXMLLines[i].replace (" !", "!");
+                IXMLLines[i] = IXMLLines[i].replace (" )", ")");
+                IXMLLines[i] = IXMLLines[i].replace (") ", ")");
+                IXMLLines[i] = IXMLLines[i].replace ("( ", "(");
             }
 
-            Pos=0;
-            while ((Pos=Lines[i].indexOf(RxDetokenQuote,0, &Match)) != -1) {
-                Lines[i]=
-                        Lines[i].mid(0,Pos) +
-                        " '" + Match.captured(1) + "' " +
-                        Lines[i].mid(Pos + Match.capturedLength());
-            }
-        }
-        Lines[i] = Lines[i].replace ("&gt;", ">");
-        Lines[i] = Lines[i].replace ("&lt;", "<");
-        Lines[i] = Lines[i].replace ("&amp;", "&");
-
-        if (_detokenize){
-            Lines[i] = Lines[i].replace ("  ", " ");
-            Lines[i] = Lines[i].replace ("  ", " ");
-            Lines[i] = Lines[i].replace (" .", ".");
-            Lines[i] = Lines[i].replace (" ,", ",");
-            Lines[i] = Lines[i].replace (" ;", ";");
-            Lines[i] = Lines[i].replace (" :", ":");
-            Lines[i] = Lines[i].replace (" ?", "?");
-            Lines[i] = Lines[i].replace (" !", "!");
-            Lines[i] = Lines[i].replace (" )", ")");
-            Lines[i] = Lines[i].replace (") ", ")");
-            Lines[i] = Lines[i].replace ("( ", "(");
-        }
-
-        if (_hinidiDigits && (LangCode && (!strcmp(LangCode, "fa") || !strcmp(LangCode,"ar")))){
-            static QString ArabicCharacters=QStringLiteral("۰۱۲۳۴۵۶۷۸۹؟؛،");
-            for (int j=0; j<Lines[i].size(); ++j){
-                switch(Lines[i][j].unicode()){
-                case '0': Lines[i][j]=ArabicCharacters.at(0);break;
-                case '1': Lines[i][j]=ArabicCharacters.at(1);break;
-                case '2': Lines[i][j]=ArabicCharacters.at(2);break;
-                case '3': Lines[i][j]=ArabicCharacters.at(3);break;
-                case '4': Lines[i][j]=ArabicCharacters.at(4);break;
-                case '5': Lines[i][j]=ArabicCharacters.at(5);break;
-                case '6': Lines[i][j]=ArabicCharacters.at(6);break;
-                case '7': Lines[i][j]=ArabicCharacters.at(7);break;
-                case '8': Lines[i][j]=ArabicCharacters.at(8);break;
-                case '9': Lines[i][j]=ArabicCharacters.at(9);break;
-                case '?': Lines[i][j]=ArabicCharacters.at(10);break;
-                case ';': Lines[i][j]=ArabicCharacters.at(11);break;
-                case ',': Lines[i][j]=ArabicCharacters.at(12);break;
+            if (_hinidiDigits && (LangCode && (!strcmp(LangCode, "fa") || !strcmp(LangCode,"ar")))){
+                static QString ArabicCharacters=QStringLiteral("۰۱۲۳۴۵۶۷۸۹؟؛،");
+                for (int j=0; j<IXMLLines[i].size(); ++j){
+                    switch(IXMLLines[i][j].unicode()){
+                    case '0': IXMLLines[i][j]=ArabicCharacters.at(0);break;
+                    case '1': IXMLLines[i][j]=ArabicCharacters.at(1);break;
+                    case '2': IXMLLines[i][j]=ArabicCharacters.at(2);break;
+                    case '3': IXMLLines[i][j]=ArabicCharacters.at(3);break;
+                    case '4': IXMLLines[i][j]=ArabicCharacters.at(4);break;
+                    case '5': IXMLLines[i][j]=ArabicCharacters.at(5);break;
+                    case '6': IXMLLines[i][j]=ArabicCharacters.at(6);break;
+                    case '7': IXMLLines[i][j]=ArabicCharacters.at(7);break;
+                    case '8': IXMLLines[i][j]=ArabicCharacters.at(8);break;
+                    case '9': IXMLLines[i][j]=ArabicCharacters.at(9);break;
+                    case '?': IXMLLines[i][j]=ArabicCharacters.at(10);break;
+                    case ';': IXMLLines[i][j]=ArabicCharacters.at(11);break;
+                    case ',': IXMLLines[i][j]=ArabicCharacters.at(12);break;
+                    }
                 }
             }
         }
+        if (_breakSentences)
+            Textlines.append(IXMLLines.join("\n"));
+        else
+            Textlines.append(IXMLLines.join(" "));
     }
-    if (_breakSentences)
-        return Lines.join("\n");
-    else
-        return Lines.join(" ");
+    return Textlines.join("\n");
 }
 
 /**
