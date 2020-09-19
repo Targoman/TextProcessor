@@ -22,7 +22,9 @@ ProjectName="TargomanTextProcessor"
 VERSION=1.1.1
 
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
-ProjectDependencies+=TargomanCommon
+ProjectDependencies+=TargomanCommon \
+                     QJsonRPC
+QMAKE_CXXFLAGS += -Wno-unknown-pragmas
 
 ################################################################################
 #                       DO NOT CHANGE ANYTHING BELOW                           #
