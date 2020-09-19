@@ -72,6 +72,9 @@ bool TargomanTextProcessor::init(const stuConfigs& _configs)
  */
 bool TargomanTextProcessor::init(QSharedPointer<QSettings> _configSettings)
 {
+    if (Initialized)
+        return true;
+
     stuConfigs MyConfigs;
     MyConfigs.AbbreviationsFile = TargomanTP::Private::Configs.AbbreviationFile.value();
     MyConfigs.NormalizationFile = TargomanTP::Private::Configs.NormalizationFile.value();
