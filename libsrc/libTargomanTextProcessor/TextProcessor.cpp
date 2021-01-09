@@ -310,6 +310,7 @@ QString TargomanTextProcessor::normalizeText(const QString _input,
                                                     Output,
                                                     _spellCorrected,
                                                     _interactive);
+        Output = TargomanTextProcessor::ixml2Text(Output, _lang);
     }
 
     return Normalizer::fullTrim(Output);
