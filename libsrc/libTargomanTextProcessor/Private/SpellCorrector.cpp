@@ -114,7 +114,7 @@ QString SpellCorrector::process(const QString& _lang,
                 while (!ValidSelection)
                 {
                     std::cout<<"Press: (1: accept, 2: Normalize to)"<<std::endl;
-                    QString Result = QChar((char)std::cin.get());
+                    QString Result = QChar(static_cast<char>(std::cin.get()));
                     switch(Result.toInt ())
                     {
                     case 1:
@@ -191,7 +191,7 @@ QString SpellCorrector::process(const QString& _lang,
                         Output += MultiWordBuffer.takeFirst() + " ";
                 }
                 if (HasRemaining)
-                    Output += ((QStringList)Tokens.mid(Tokens.size()-MaxTokens + 1)).join(" ");
+                    Output += (static_cast<QStringList>(Tokens.mid(Tokens.size()-MaxTokens + 1))).join(" ");
             }while(Output.trimmed() != Phrase.trimmed());
         }
     }while(Output.trimmed() != FinalPhrase.trimmed());

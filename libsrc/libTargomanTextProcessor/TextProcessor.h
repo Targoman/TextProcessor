@@ -92,10 +92,10 @@ public:
                       QList<stuIXMLReplacement> _replacements = QList<stuIXMLReplacement>()) const;
 
     QString ixml2Text(const QString& _ixml,
-                      const QString& _lang = "",
                       bool _detokenize = true,
-                      bool _hinidiDigits = true,
-                      bool _breakSentences = true) const;
+                      bool _hinidiDigits = false,
+                      bool _arabicPunctuations = false,
+                      bool _breakSentences = false) const;
 
     inline QString normalizeText(const QString _input,
                                  bool _interactive,

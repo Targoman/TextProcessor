@@ -119,12 +119,12 @@ QString TargomanTextProcessor::text2IXML(const QString &_inStr,
     const char* LangCode = ISO639getAlpha2(_lang.toLatin1().constData());
 
     QString IXML = IXMLWriter::instance().convert2IXML(
-                _inStr,
-                _spellCorrected,
-                LangCode ? LangCode : "",
-                _lineNo,
-                _interactive,
-                _useSpellCorrector);
+                       _inStr,
+                       _spellCorrected,
+                       LangCode ? LangCode : "",
+                       _lineNo,
+                       _interactive,
+                       _useSpellCorrector);
 
     foreach(const stuIXMLReplacement& Replacement, _replacements)
         IXML.replace(Replacement.SearchRegExp, Replacement.AfterString);
@@ -185,7 +185,7 @@ QStringList getIXMLLines(QString& _data)
     _data = _data.replace (" TGMN_EM]\n", " ! ]\n");
     _data = _data.replace (" TGMN_EM}\n", " ! }\n");
 
-     return _data.split ('\n', QString::SkipEmptyParts);
+    return _data.split ('\n', QString::SkipEmptyParts);
 }
 
 
@@ -194,19 +194,22 @@ QStringList getIXMLLines(QString& _data)
  * @param _ixml
  * @return
  */
-QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _lang, bool _detokenize, bool _hinidiDigits, bool _breakSentences) const
+QString TargomanTextProcessor::ixml2Text(const QString &_ixml,
+                                         bool _detokenize,
+                                         bool _hinidiDigits,
+                                         bool _arabicPunctuations,
+                                         bool _breakSentences) const
 {
     if (!Initialized)
         throw exTextProcessor("Text Processor has not been initialized");
-    const char* LangCode = ISO639getAlpha2(_lang.toLatin1().constData());
 
     thread_local static QRegularExpression RxSuffixes = QRegularExpression(
-                QString("(?: )('[%1])(?: )").arg(IXMLWriter::instance().supportedSuffixes()));
+                                                            QString("(?: )('[%1])(?: )").arg(IXMLWriter::instance().supportedSuffixes()));
 
     thread_local static QRegularExpression RxDetokenDQuote = QRegularExpression("(?:(?: |^)\" )([^\"]+)(?: \"(?: |$))");
     thread_local static QRegularExpression RxDetokenQuote  = QRegularExpression("(?:(?: |^)\\' )([^\\']+)(?: \\'(?: |$))");
     thread_local static QRegularExpression RxAllIXMLTags =
-        QRegularExpression(
+            QRegularExpression(
                 QString("<%1>").arg(enuTextTags::options().join(">|<")) +
                 QString("|</%1>").arg(enuTextTags::options().join(">|</"))
                 );
@@ -260,25 +263,29 @@ QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _l
                 IXMLLines[i] = IXMLLines[i].replace (") ", ")");
                 IXMLLines[i] = IXMLLines[i].replace ("( ", "(");
             }
-
-            if (_hinidiDigits && (LangCode && (!strcmp(LangCode, "fa") || !strcmp(LangCode,"ar")))){
+            if (_hinidiDigits || _arabicPunctuations){
                 static QString ArabicCharacters=QStringLiteral("۰۱۲۳۴۵۶۷۸۹؟؛،");
                 for (int j=0; j<IXMLLines[i].size(); ++j){
-                    switch(IXMLLines[i][j].unicode()){
-                    case '0': IXMLLines[i][j]=ArabicCharacters.at(0);break;
-                    case '1': IXMLLines[i][j]=ArabicCharacters.at(1);break;
-                    case '2': IXMLLines[i][j]=ArabicCharacters.at(2);break;
-                    case '3': IXMLLines[i][j]=ArabicCharacters.at(3);break;
-                    case '4': IXMLLines[i][j]=ArabicCharacters.at(4);break;
-                    case '5': IXMLLines[i][j]=ArabicCharacters.at(5);break;
-                    case '6': IXMLLines[i][j]=ArabicCharacters.at(6);break;
-                    case '7': IXMLLines[i][j]=ArabicCharacters.at(7);break;
-                    case '8': IXMLLines[i][j]=ArabicCharacters.at(8);break;
-                    case '9': IXMLLines[i][j]=ArabicCharacters.at(9);break;
-                    case '?': IXMLLines[i][j]=ArabicCharacters.at(10);break;
-                    case ';': IXMLLines[i][j]=ArabicCharacters.at(11);break;
-                    case ',': IXMLLines[i][j]=ArabicCharacters.at(12);break;
-                    }
+                    if(_hinidiDigits)
+                        switch(IXMLLines[i][j].unicode()){
+                        case '0': IXMLLines[i][j]=ArabicCharacters.at(0);break;
+                        case '1': IXMLLines[i][j]=ArabicCharacters.at(1);break;
+                        case '2': IXMLLines[i][j]=ArabicCharacters.at(2);break;
+                        case '3': IXMLLines[i][j]=ArabicCharacters.at(3);break;
+                        case '4': IXMLLines[i][j]=ArabicCharacters.at(4);break;
+                        case '5': IXMLLines[i][j]=ArabicCharacters.at(5);break;
+                        case '6': IXMLLines[i][j]=ArabicCharacters.at(6);break;
+                        case '7': IXMLLines[i][j]=ArabicCharacters.at(7);break;
+                        case '8': IXMLLines[i][j]=ArabicCharacters.at(8);break;
+                        case '9': IXMLLines[i][j]=ArabicCharacters.at(9);break;
+                        }
+
+                    if(_arabicPunctuations)
+                        switch(IXMLLines[i][j].unicode()){
+                        case ';': IXMLLines[i][j]=ArabicCharacters.at(10);break;
+                        case '?': IXMLLines[i][j]=ArabicCharacters.at(11);break;
+                        case ',': IXMLLines[i][j]=ArabicCharacters.at(12);break;
+                        }
                 }
             }
         }
@@ -294,6 +301,7 @@ QString TargomanTextProcessor::ixml2Text(const QString &_ixml, const QString& _l
  * @brief TextProcessor::normalizeText Normalizes based on normalization rules. It will also correct miss-spells if
  *        _lang is provided
  * @param _input Input phrase to be normalized
+ * @param _spellCorrected a holder to specify wheter input text has been spell corrected ot not
  * @param _interactive In interactive mode new entries can be learnt
  * @param _lang An ISO639 Language code. If provided input phrase will be spell corrected
  * @return Normalized phrase
@@ -303,15 +311,13 @@ QString TargomanTextProcessor::normalizeText(const QString _input,
                                              bool _interactive,
                                              const QString &_lang) const
 {
-    QString Output = Normalizer::instance().normalize(_input, _interactive);
-    if (_lang.size()){
-        const char* LangCode = ISO639getAlpha2(_lang.toLatin1().constData());
-        Output = SpellCorrector::instance().process(LangCode ? LangCode : "",
-                                                    Output,
-                                                    _spellCorrected,
-                                                    _interactive);
-        Output = TargomanTextProcessor::ixml2Text(Output, _lang);
-    }
+    QString Output;
+    if(_lang.size()){
+        auto Tokenized = TargomanTextProcessor::text2IXML(_input, _spellCorrected, _lang);
+        bool IsArabic = _lang == "fa" || _lang == "ar";
+        Output = TargomanTextProcessor::ixml2Text(Tokenized, true, IsArabic, IsArabic, false);
+    } else
+        Output = Normalizer::instance().normalize(_input, _interactive);
 
     return Normalizer::fullTrim(Output);
 }

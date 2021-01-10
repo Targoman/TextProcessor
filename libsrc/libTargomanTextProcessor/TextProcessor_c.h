@@ -29,7 +29,21 @@ bool c_init(
     const char* _languageCode
     );
 
-bool c_ixml2Text(const char* _source, char* _target, int _targetMaxLength);
+bool c_ixml2Text(const char* _source,
+                 char* _target,
+                 int _targetMaxLength,
+                 const char* _lang,
+                 bool _detokenize = true,
+                 bool _hinidiDigits = false,
+                 bool _arabicPunctuations = false,
+                 bool _breakSentences = false);
 bool c_text2IXML(const char* _source, const char* _language, bool _noSpellCorrector, char* _target, int _targetMaxLength);
-bool c_tokenize(const char* _source, const char* _language, bool _noSpellCorrector, char* _target, int _targetMaxLength);
+bool c_tokenize(const char* _source,
+                const char* _language,
+                bool _noSpellCorrector,
+                char* _target,
+                int _targetMaxLength,
+                bool _hinidiDigits = false,
+                bool _arabicPunctuations = false,
+                bool _breakSentences = false);
 bool c_normalize(const char* _source, const char* _language, char* _target, int _targetMaxLength);
