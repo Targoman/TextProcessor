@@ -1,0 +1,9 @@
+[submodule "3rdParty/ISO639"]
+	path = 3rdParty/ISO639
+	url = https://github.com/Targoman/ISO639
+[submodule "3rdParty/QJsonRPC"]
+	path = 3rdParty/QJsonRPC
+	url = https://github.com/Targoman/qjsonrpc
+[submodule "3rdParty/TargomanCommon"]
+	path = 3rdParty/TargomanCommon
+	url = https://github.com/Targoman/TargomanCommon
