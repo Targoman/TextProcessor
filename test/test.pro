@@ -11,6 +11,5 @@ HEADERS =
 # +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-#
 SOURCES = main.cpp
 
-
 ################################################################################
-include(../qmake/testConfigs.pri)
+include($$QBUILD_PATH/templates/testConfigs.pri)

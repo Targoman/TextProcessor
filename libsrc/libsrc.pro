@@ -62,4 +62,4 @@ OTHER_FILES += \
     conf/SpellCorrectors/Persian/NeedHeYe.txt
 
 ################################################################################
-include(../qmake/libConfigs.pri)
+include($$QBUILD_PATH/templates/libConfigs.pri)
