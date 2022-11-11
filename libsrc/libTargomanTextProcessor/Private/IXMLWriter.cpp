@@ -180,6 +180,11 @@ QString IXMLWriter::convert2IXML(const QString &_inStr,
 
     //normalize input text.
     for (int i=0; i<InputPhrase.size(); i++){
+	if(InputPhrase.at(i).isSurrogate()) {
+	    OutputPhrase.append(InputPhrase.midRef(i, 2));
+	    ++i;
+	    continue;
+	}
         OutputPhrase.append(this->NormalizerInstance.normalize(
                     InputPhrase.at(i),
                     ((i + 1) < InputPhrase.size() ? InputPhrase.at(i+1) : QChar('\n')),
@@ -260,7 +265,7 @@ QString IXMLWriter::convert2IXML(const QString &_inStr,
     InputPhrase = OutputPhrase;
     OutputPhrase.clear();
     foreach (const QChar& Char, InputPhrase){
-        if (!Char.isLetterOrNumber() && Char != ARABIC_ZWNJ){
+        if (Char.isSurrogate() == false && !Char.isLetterOrNumber() && Char != ARABIC_ZWNJ){
             OutputPhrase.append(' ');
             OutputPhrase.append(Char);
             OutputPhrase.append(' ');
