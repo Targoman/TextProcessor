@@ -77,6 +77,8 @@ QString Normalizer::normalize(const QChar &_char,
                               bool _skipRecheck)
 {
     QChar Char = _char;
+    if(_char.isSurrogate())
+        return this->LastChar = Char;
     bool NextCharIsNotLeftJoinable = (_nextChar.isSpace() ||
                                       _nextChar.isSymbol() ||
                                       _nextChar.isDigit() ||
@@ -161,7 +163,9 @@ QString Normalizer::normalize(const QChar &_char,
                 QString TempNormalized = Normalized;
                 Normalized.clear();
                 for (int i = 0; i < TempNormalized.size(); i++) {
-                    QString NormalizedChar = this->normalize(TempNormalized.at(i),
+                    QString NormalizedChar;
+		    if(TempNormalized.at(i).isSurrogate() == false) {
+		        NormalizedChar = this->normalize(TempNormalized.at(i),
                                                              ((i + 1) < TempNormalized.size() ? TempNormalized.at(i+1) : _nextChar),
                                                              _interactive,
                                                              _line,
@@ -169,8 +173,12 @@ QString Normalizer::normalize(const QChar &_char,
                                                              _charPos,
                                                              true
                                                              );
-                    if(NormalizedChar.size())
-                        Normalized.append(this->LastChar =  NormalizedChar[0]);
+                        if(NormalizedChar.size())
+                            Normalized.append(this->LastChar =  NormalizedChar[0]);
+		    } else {
+		        NormalizedChar.append(TempNormalized.midRef(i, 2));
+			++i;
+		    }
                 }
                 return Normalized;
             }
@@ -359,6 +367,11 @@ QString Normalizer::normalize(const QString &_string, qint32 _line, bool _intera
     QString Normalized;
     this->LastChar = QChar();
     for (int i=0; i<_string.size(); i++){
+        if(_string.at(i).isSurrogate()) {
+            Normalized.append(_string.midRef(i, 2));
+	    ++i;
+            continue;
+        }
         QString normalizedCharString = this->normalize(_string.at(i),
                                                        ((i + 1) < _string.size() ? _string.at(i+1) : QChar('\n')),
                                                        _interactive,
