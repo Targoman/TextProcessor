@@ -30,6 +30,10 @@
 using namespace Targoman::Common;
 using namespace Targoman::NLPLibs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool c_init(
         const char* _normalizationFilePath,
         const char* _abbreviationFilePath,
@@ -141,3 +145,7 @@ bool c_normalize(const char* _source, const char* _language, char* _target, int 
                 _target,
                 _targetMaxLength);
 }
+
+#ifdef __cplusplus
+}
+#endif

@@ -21,7 +21,12 @@
 /**
  * @author Behrooz Vedadian <vedadian@targoman.com>
  */
- 
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool c_init(
     const char* _normalizationFilePath,
     const char* _abbreviationFilePath,
@@ -47,3 +52,7 @@ bool c_tokenize(const char* _source,
                 bool _arabicPunctuations = false,
                 bool _breakSentences = false);
 bool c_normalize(const char* _source, const char* _language, char* _target, int _targetMaxLength);
+
+#ifdef __cplusplus
+}
+#endif
